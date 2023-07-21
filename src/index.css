@@ -1,13 +1,72 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url(https://pro.fontawesome.com/releases/v5.15.4/css/all.css);
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #2D140D;
+}
+
+.main {
+  @apply pt-16 pl-4 pr-4 pb-20;
+}
+
+td {
+  @apply table-cell border-b border-slate-100 dark:border-slate-700 text-slate-500 dark:text-slate-400 text-left p-4;
+}
+
+th {
+  @apply text-left p-4;
+}
+
+.hover\:w-full:hover {
+    width: 100%;
+}
+.group:hover .group-hover\:w-full {
+    width: 100%;
+}
+.group:hover .group-hover\:inline-block {
+    display: inline-block;
+}
+.group:hover .group-hover\:flex-grow {
+    flex-grow: 1;
+}
+.btn {
+  @apply font-bold py-2 px-4 rounded mb-4 block text-center;
+}
+.btn-blue {
+  @apply bg-blue-500 text-white;
+}
+.btn-blue:hover {
+  @apply bg-blue-700;
+}
+
+.btn-secondary {
+  @apply bg-gray-500 text-white;
+}
+
+.btn-whatsapp {
+  background-color: #25D366;
+  color: #fff;
+}
+
+.main {
+  min-height: 100vh;
 }

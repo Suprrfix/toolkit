@@ -1,0 +1,15 @@
+.navigation {
+    @apply flex-1;
+}
+
+.navigation a {
+    @apply flex items-end justify-center text-center mx-auto px-4 pt-2 w-full text-gray-400;
+}
+
+.navigation a:hover {
+    @apply  text-indigo-500 border-b-2 border-transparent border-indigo-500;   
+}
+
+.navigation a.active {
+    @apply text-indigo-500 border-b-2 border-transparent border-indigo-500;
+}
