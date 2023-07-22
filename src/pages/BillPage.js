@@ -1,45 +1,104 @@
 import { Link } from "react-router-dom";
 import DetailField from "../components/Garage/DetailField";
 import BillItemLine from "../components/Garage/BillItemLine";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+
+const currentGarage = localStorage.getItem("garage_id");
+const token = localStorage.getItem("token");
 
 //get the garage details
-// async function getGarageDetails() {
+async function getGarageDetails() {
 
-//   const currentGarage = localStorage.getItem("garage_id");
-//   const token = localStorage.getItem("token");
+  const res = await fetch(
+    `http://localhost:9094/api/v1/garage/${currentGarage}/details`,
+    {
+      cache: "no-store",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  
+  if (res.status === 403) {
+    // Check if the redirect flag is set to prevent infinite redirection loop
+    if (!localStorage.getItem("redirectedToLogin")) {
+      localStorage.setItem("redirectedToLogin", "true");
+      // Redirect the user to the login page
+      window.location.href = "/login";
+      return Promise.resolve(null); // Return null to indicate that the API call should not proceed
+    }
+  }
 
-//   const res = await fetch(
-//     `http://localhost:9094//api/v1/garage/${currentGarage}/details`,
-//     {
-//       cache: "no-store",
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     }
-//   );
+  // Clear the redirect flag when the response is not 403
+  localStorage.removeItem("redirectedToLogin");
 
-//   if (!res.ok) {
-//     throw new Error("Failed to fetch data");
-//   }
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
 
-//   const garageDetails = await res.json();
+  const garageDetails = await res.json();
 
-//   return garageDetails;
-// }
-
-// const garageDetails = getGarageDetails();
+  return garageDetails;
+}
 
 export default function BillPage() {
+    const [garageDetails, setGarageDetails] = useState(null);
+    let navigate = useNavigate();
 
-    // console.log(garageDetails);
+    useEffect(() => {
+        async function fetchGarageDetails() {
+          try {
+            const details = await getGarageDetails();
+            if (details !== null) {
+              setGarageDetails(details);
+            }
+            // Handle other cases if needed (e.g., details === null)
+          } catch (error) {
+            console.error("Error while fetching garage details:", error);
+          }
+        }
+    
+        fetchGarageDetails();
+      }, []);
 
   const checkIn = useLoaderData();
   //fetch the garage details
 
-  //fetch the bill items
+  let billTotal = checkIn.bill_items.reduce((total, bill_item) => {
+    return total + bill_item.services_price;
+  }, 0);
+
+  const handleCheckout = async () => {
+    // Perform the /check-out API call here and get the response
+    const response = await fetch("http://localhost:9094/api/v1/create/check_out", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        checkInId: checkIn.check_in_id,
+        billId: checkIn.bill_id,
+        nextServiceDueDate: "",
+      }),
+    });
+
+    // Convert the response to JSON
+    const data = await response.json();
+
+    // Redirect to the checked-out page with the necessary data as URL parameters
+    navigate(`/garage/checked-out/${data.id}?vehicle=${checkIn.vehicle_number}`);
+  };
+
 
   //compute total of all bill items and store it in a variable
+
+  if (garageDetails === null) {
+    // Handle the case where garageDetails is null, such as redirecting to the login page
+    return <div>Loading or Redirecting...</div>;
+  }
 
   return (
     <section>
@@ -48,15 +107,15 @@ export default function BillPage() {
       </div>
       <div className="receipt border border-gray-300 p-4">
         <header className="mb-4 mt-4">
-          <h1 className="text-xl dark:text-gray-300">Anwar Garage</h1>
-          <p>11 Evening Street, Old Madras Road, Bengaluru, Karnataka</p>
-          <div>+91 91232 02391</div>
+          <h1 className="text-xl dark:text-gray-300">{garageDetails.garage_name}</h1>
+          <p>{garageDetails.garage_address} {'-' + garageDetails.garage_pincode}</p>
+          <div><i className="fas fa-phone-alt"></i> {garageDetails.owner_phone_number}</div>
         </header>
 
         <hr className="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700"></hr>
-        <DetailField label="Customer name" value="Mahesh Raghavan" />
-        <DetailField label="Mobile" value="+91 97200 09230" />
-        <DetailField label="Vehicle number" value="KA 11 MH 2310" />
+        <DetailField label="Customer name" value={`${checkIn.customer_first_name} ${checkIn.customer_last_name}`} />
+        <DetailField label="Mobile" value={`+91 ${checkIn.customer_phone_number}`} />
+        <DetailField label="Vehicle number" value={checkIn.vehicle_number} />
         <hr className="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700"></hr>
         <div className="flex flex-col">
           <div className="-m-1.5 overflow-x-auto">
@@ -94,34 +153,34 @@ export default function BillPage() {
                         Total
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-800 dark:text-gray-200">
-                        4500
+                        {billTotal}
                       </td>
                     </tr>
                   </tfoot>
                 </table>
-                <div className="input-group mt-4">
+                {/* <div className="input-group mt-4">
                   <label htmlFor="next_service_date mb-4">
-                    Next service date:{" "}
+                    Next service date:
                   </label>
                   <input
-                    type="date"
+                    type="text"
                     name="next_service_date"
                     id="next_service_date"
                     className="py-3 px-4 block w-full border border-gray-500 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
                   />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
         </div>
       </div>
       <div className="button-group flex fixed bottom-0 left-0 w-full px-4">
-        <Link href="/garage/update/1" className="flex-1 btn btn-secondary mr-2">
+        <Link to={`/garage/check-in/${checkIn.check_in_id}`} className="flex-1 btn btn-secondary mr-2">
           Go Back
         </Link>
-        <Link href="/garage/bill" className="flex-1 btn btn-blue">
-          Confirm
-        </Link>
+        <button className="flex-1 btn btn-blue" onClick={handleCheckout}>
+        Complete check-out
+      </button>
       </div>
     </section>
   );

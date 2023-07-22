@@ -10,11 +10,7 @@ export default function GaragePage() {
       <Link to="/garage/check-in" className="btn btn-blue mt-12">
         Check-in vehicle
       </Link>
-
-      <Link to="..">Back</Link>
-
       <CheckedInVehiclesList vehicles={vehicles} />
-
       <MainNavigation />
     </>
   );

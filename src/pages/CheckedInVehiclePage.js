@@ -11,9 +11,9 @@ export default function CheckedInVehiclePage() {
 
   return (
     <>
-      <div className="mb-8">
+      <div className="mb-8 mt-4">
         <Link to={`/garage/${currentGarage}`}>
-          <i className="fas fa-long-arrow-left"></i> Back
+        <i className="fas fa-chevron-left"></i> Back to Garage
         </Link>
       </div>
       <h2 className="text-gray-900 dark:text-gray-300 text-md">

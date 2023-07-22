@@ -31,9 +31,11 @@ export default function LoginPage() {
 
         if (user.role_name === "SUPER_ADMIN") {
           localStorage.setItem("garage_id", null);
+          localStorage.setItem("role", 'SUPER_ADMIN');
           navigate("/garage");
         } else {
           localStorage.setItem("garage_id", user.garage_details.garage_id);
+          localStorage.setItem("role", 'OWNER');
           navigate(`/garage/${user.garage_details.garage_id}`);
         }
       } else {

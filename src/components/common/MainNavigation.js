@@ -1,13 +1,17 @@
 import { NavLink } from "react-router-dom";
 import classes from "./MainNavigation.module.css";
 
+let garage_id = localStorage.getItem('garage_id');
+let user_role = localStorage.getItem('role');
+
 export default function MainNavigation() {
   return (
     <div className="fixed bottom-0 left-4 right-4 px-7 bg-white shadow-lg rounded-2xl mb-4 dark:bg-slate-600">
       <div className="flex">
         <div className={classes.navigation + " group"}>
+
           <NavLink
-            to="/garage"
+            to={ user_role === 'SUPER_ADMIN' ?'/garage': `/garage/${garage_id}` }
             className={({ isActive }) =>
               isActive ? classes.active : undefined
             }

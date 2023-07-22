@@ -11,6 +11,8 @@ import CheckInVehicleForm from "./pages/CheckInVehicleForm";
 import CheckedInVehiclePage from "./pages/CheckedInVehiclePage";
 import LogoutPage from "./pages/Logout";
 import BillPage from "./pages/BillPage";
+import CheckedOutPage from "./pages/CheckedOutPage";
+import ComingSoonPage from "./pages/ComingSoonPage";
 
 const router = createBrowserRouter([
   {
@@ -19,8 +21,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "/business", element: <GaragePage /> },
-      { path: "/customers", element: <GaragePage /> },
+      { path: "/business", element: <ComingSoonPage /> },
+      { path: "/customers", element: <ComingSoonPage /> },
       { path: "/login", element: <LoginPage /> },
       { path: "/logout", element: <LogoutPage /> },
     ],
@@ -32,6 +34,7 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <AllGaragesPage /> },
       { path: "check-in", element: <CheckInVehicleForm /> },
+      { path: "checked-out/:checkOutId", element: <CheckedOutPage /> },
       { path: "generate-bill/:checkInId", element: <BillPage />, loader: async ({ params }) => {
         const token = localStorage.getItem("token");
         const res = await fetch(
