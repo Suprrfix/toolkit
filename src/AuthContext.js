@@ -21,6 +21,7 @@ export function AuthProvider({ children }) {
     // Perform your logout logic here, set isLoggedIn to false after logout
     localStorage.clear();
     setIsLoggedIn(false);
+    console.log('Logout function called');
   }
 
   return (
