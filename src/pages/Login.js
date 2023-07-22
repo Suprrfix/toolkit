@@ -12,7 +12,7 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://optimus-internal.suprrfix.com/api/v1/signin", {
+      const res = await fetch("https://optimus-internal.suprrfix.com/api/v1/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
