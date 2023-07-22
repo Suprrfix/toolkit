@@ -38,7 +38,7 @@ const router = createBrowserRouter([
       { path: "generate-bill/:checkInId", element: <BillPage />, loader: async ({ params }) => {
         const token = localStorage.getItem("token");
         const res = await fetch(
-          `http://localhost:9094/api/v1/check_in/${params.checkInId}/details`,
+          `http://optimus-internal.suprrfix.com/api/v1/check_in/${params.checkInId}/details`,
           {
             cache: "no-store",
             headers: {
@@ -61,7 +61,7 @@ const router = createBrowserRouter([
         loader: async ({ params }) => {
           const token = localStorage.getItem("token");
           const res = await fetch(
-            `http://localhost:9094/api/v1/check_in/${params.checkInId}/details`,
+            `http://optimus-internal.suprrfix.com/api/v1/check_in/${params.checkInId}/details`,
             {
               cache: "no-store",
               headers: {
@@ -87,7 +87,7 @@ const router = createBrowserRouter([
           const garage_id = params.garageId;
 
           const res = await fetch(
-            `http://localhost:9094/api/v1/incomplete_checkins/${garage_id}`,
+            `http://optimus-internal.suprrfix.com/api/v1/incomplete_checkins/${garage_id}`,
             {
               cache: "no-store",
               headers: {
