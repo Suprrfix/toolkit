@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../AuthContext";
+import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
@@ -12,7 +13,10 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-      const res = await fetch("https://suprrfix.com/api/login", {
+
+      console.log("calling api");      
+
+      const res = await fetch("/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -21,24 +25,32 @@ export default function LoginPage() {
           phoneNumber: username,
           password: password,
         }),
-      });
+      });      
 
-      const user = await res.json();
-      if (user && user.access_token) {
-        localStorage.setItem("token", user.access_token);
+      if (res.ok) {
+        // If the response status is OK (200-299), parse the response body as JSON
+        const data = await res.json();
+        console.log("Response data:", data);
 
-        login();
+        const user = data;
+        if (user && user.access_token) {
+          localStorage.setItem("token", user.access_token);
 
-        if (user.role_name === "SUPER_ADMIN") {
-          localStorage.setItem("garage_id", null);
-          localStorage.setItem("role", 'SUPER_ADMIN');
-          navigate("/garage");
-        } else {
-          localStorage.setItem("garage_id", user.garage_details.garage_id);
-          localStorage.setItem("role", 'OWNER');
-          navigate(`/garage/${user.garage_details.garage_id}`);
+          login();        
+
+          if (user.role_name === "SUPER_ADMIN") {
+            localStorage.setItem("garage_id", null);
+            localStorage.setItem("role", 'SUPER_ADMIN');
+            navigate("/garage");
+          } else {
+            localStorage.setItem("garage_id", user.garage_details.garage_id);
+            localStorage.setItem("role", 'OWNER');
+            navigate(`/garage/${user.garage_details.garage_id}`);
+          }
         }
-      } else {
+
+      } 
+       else {
         console.log("Login failed: Invalid credentials");
       }
     } catch (error) {
