@@ -5,6 +5,9 @@ exports.loginApi = function (req, res, next) {
     
     // Make a POST request to optimus microservice
 
+    console.log("-----logon controller----")
+    console.log(req.body);
+
     request.post({
       url: "https://optimus-internal.suprrfix.com/api/v1/signin",
       body: req.body, // Send the request body from the client to the backend microservice
