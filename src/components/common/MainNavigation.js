@@ -11,7 +11,7 @@ export default function MainNavigation() {
         <div className={classes.navigation + " group"}>
 
           <NavLink
-            to={ user_role === 'SUPER_ADMIN' ?'/garage': `/garage/${garage_id}` }
+            to={ user_role === 'SUPER_ADMIN' ?'/garages' : `/garage/${garage_id}` }
             className={({ isActive }) =>
               isActive ? classes.active : undefined
             }
@@ -19,19 +19,6 @@ export default function MainNavigation() {
             <span className="block px-1 pt-1 pb-2">
               <i className="far fa-garage-car text-2xl pt-1 mb-1 block"></i>
               <span className="block text-xs pb-1">Garage</span>
-            </span>
-          </NavLink>
-        </div>
-        <div className={classes.navigation + " group"}>
-          <NavLink
-            to="/business"
-            className={({ isActive }) =>
-              isActive ? classes.active : undefined
-            }
-          >
-            <span className="block px-1 pt-1 pb-2">
-              <i className="far fa-rupee-sign text-2xl pt-1 mb-1 block"></i>
-              <span className="block text-xs pb-1">Business</span>
             </span>
           </NavLink>
         </div>
@@ -45,6 +32,19 @@ export default function MainNavigation() {
             <span className="block px-1 pt-1 pb-2">
               <i className="far fa-users text-2xl pt-1 mb-1 block"></i>
               <span className="block text-xs pb-1">Customers</span>
+            </span>
+          </NavLink>
+        </div>
+        <div className={classes.navigation + " group"}>
+          <NavLink
+            to="/business"
+            className={({ isActive }) =>
+              isActive ? classes.active : undefined
+            }
+          >
+            <span className="block px-1 pt-1 pb-2">
+              <i className="far fa-rupee-sign text-2xl pt-1 mb-1 block"></i>
+              <span className="block text-xs pb-1">Business</span>
             </span>
           </NavLink>
         </div>

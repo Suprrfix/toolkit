@@ -67,7 +67,7 @@ export default function BillPage() {
   //fetch the garage details
 
   let billTotal = checkIn.bill_items.reduce((total, bill_item) => {
-    return total + bill_item.services_price;
+    return total + bill_item.price;
   }, 0);
 
   const handleCheckout = async () => {
@@ -141,9 +141,9 @@ export default function BillPage() {
                   <tbody className="divide-y divide-gray-500 dark:divide-gray-700">
                     {checkIn.bill_items.map((bill_item, index) => (
                       <BillItemLine
-                        uniqueID={index + 1}
-                        services_name={bill_item.services_name}
-                        services_price={bill_item.services_price}
+                        key={`billItem_${index}`}
+                        services_name={bill_item.serviceName}
+                        services_price={bill_item.price}
                       ></BillItemLine>
                     ))}
                   </tbody>
@@ -179,7 +179,7 @@ export default function BillPage() {
           Go Back
         </Link>
         <button className="flex-1 btn btn-blue" onClick={handleCheckout}>
-        Complete check-out
+        Check-out
       </button>
       </div>
     </section>

@@ -13,7 +13,7 @@ const CheckedInVehicleCard = ({
   vehicle_type,
 }) => {
   return (
-    <Card className="flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+    <Card>
       <div className="p-4 md:p-7">
         <h3 className="text-lg font-bold text-gray-800 dark:text-white">
           {vehicle_number}

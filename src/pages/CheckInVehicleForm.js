@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function CheckInVehicleForm() {
 
@@ -18,8 +18,6 @@ export default function CheckInVehicleForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("====FORM===");
-    console.log(formData);
 
     let garage_id = localStorage.getItem("garage_id");
 
@@ -85,8 +83,15 @@ export default function CheckInVehicleForm() {
     }));
   };
 
+  const garage_id = localStorage.getItem('garage_id');
+
   return (
     <>
+    <div className="mb-8 mt-4">
+        <Link  to={`/garage/${garage_id}`}>
+          <i className="fas fa-chevron-left"></i> Back to Garage
+        </Link>
+      </div>
       <form onSubmit={handleSubmit} className="mt-12">
         <div className="mb-6">
           <label
@@ -117,7 +122,7 @@ export default function CheckInVehicleForm() {
             type="text"
             name="customer_first_name"
             id="customer_first_name"
-            placeholder="Smith"
+            placeholder="Rajesh"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             value={formData.customer_first_name}
             onChange={handleChange}
@@ -135,7 +140,7 @@ export default function CheckInVehicleForm() {
             type="text"
             name="customer_last_name"
             id="customer_last_name"
-            placeholder="Smith"
+            placeholder="Gowda"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             value={formData.customer_last_name}
             onChange={handleChange}
@@ -153,7 +158,7 @@ export default function CheckInVehicleForm() {
             type="text"
             id="phone_number"
             name="phone_number"
-            placeholder="+91 9999 99 9999"
+            placeholder="9819009999"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             value={formData.phone_number}
             onChange={handleChange}
@@ -195,7 +200,6 @@ export default function CheckInVehicleForm() {
             onChange={handleChange}
             required
           />
-          <ul>Suggestions</ul>
         </div>
         <div className="mb-6">
           <label

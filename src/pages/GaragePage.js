@@ -7,10 +7,14 @@ export default function GaragePage() {
   const vehicles = useLoaderData();
   return (
     <>
-      <Link to="/garage/check-in" className="btn btn-blue mt-12">
+      <Link to="/garage/check-in" className="btn btn-blue">
         Check-in vehicle
       </Link>
-      <CheckedInVehiclesList vehicles={vehicles} />
+      {vehicles.length > 0 ? (
+        <CheckedInVehiclesList vehicles={vehicles} />
+      ) : (
+        <div className="text-center mt-48"><i className="fas fa-cars text-4xl"></i> <p>No vehicles checked in yet.</p></div>
+      )}  
       <MainNavigation />
     </>
   );

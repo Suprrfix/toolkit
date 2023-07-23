@@ -1,64 +1,42 @@
 import React, { useState } from "react";
 
-const ServiceList = ({ bill_id, bill_items }) => {
+const ServiceList = ({ bill_id, bill_items, onBillItemsUpdate }) => {
   const [serviceLines, setServiceLines] = useState(bill_items);
 
   const handleServiceNameChange = (index, event) => {
     const { value } = event.target;
     const updatedServiceLines = [...serviceLines];
-    updatedServiceLines[index].services_name = value;
+    updatedServiceLines[index].serviceName = value;
     setServiceLines(updatedServiceLines);
   };
 
   const handleServicePriceChange = (index, event) => {
     const { value } = event.target;
+    const parsedValue = parseFloat(value);
     const updatedServiceLines = [...serviceLines];
-    updatedServiceLines[index].services_price = parseFloat(value);
+    if (!isNaN(parsedValue)) {
+      updatedServiceLines[index].price = parsedValue;
+    } else {
+      // If the value is not a valid number, set it to 0 or any default value
+      updatedServiceLines[index].price = 0;
+    }
+    
     setServiceLines(updatedServiceLines);
+    onBillItemsUpdate(updatedServiceLines);
   };
 
   const addServiceLine = () => {
     setServiceLines([
       ...serviceLines,
-      { services_name: "", services_price: 0 },
+      { serviceName: "", price: 0 },
     ]);
   };
 
-  const deleteServiceLine = (index) => {
+  const deleteServiceLine =  (index) => {
     const updatedServiceLines = [...serviceLines];
     updatedServiceLines.splice(index, 1);
     setServiceLines(updatedServiceLines);
-  };
-
-  const handleBlur = (index) => {
-    const serviceData = serviceLines[index];
-    handleSubmit(serviceData);
-  };
-
-  const handleSubmit = async (serviceData) => {
-    const token = localStorage.getItem("token");
-    
-    try {
-    
-      const res = await fetch("http://localhost:9094/api/v1/create/bill/items", {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({billId: bill_id, price: serviceData.services_price, serviceName:serviceData.services_name})
-        }
-      );
-    
-      if (!res.ok) {
-        throw new Error("Failed to fetch data");
-      }
-    
-      return res.json();
-
-    } catch (error) {
-      console.error("Error submitting services:", error);
-    }
+    onBillItemsUpdate(updatedServiceLines);
   };
 
   return (
@@ -68,16 +46,16 @@ const ServiceList = ({ bill_id, bill_items }) => {
           <input
             className="py-3 px-4 mr-2 w-3/5 border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
             type="text"
-            value={serviceLine.services_name}
+            value={serviceLine.serviceName}
             onChange={(event) => handleServiceNameChange(index, event)}
             placeholder="Service Name"
           />
           <input
             className="py-3 px-4 w-1/5 mr-2 border border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
             type="number"
-            value={serviceLine.services_price}
+            value={serviceLine.price}
             onChange={(event) => handleServicePriceChange(index, event)}
-            onBlur={() => handleBlur(index)}
+            onBlur={(event) => handleServicePriceChange(index, event)}
             placeholder="0.00"
           />
           <button onClick={() => deleteServiceLine(index)}>

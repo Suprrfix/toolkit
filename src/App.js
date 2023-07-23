@@ -13,6 +13,8 @@ import LogoutPage from "./pages/Logout";
 import BillPage from "./pages/BillPage";
 import CheckedOutPage from "./pages/CheckedOutPage";
 import ComingSoonPage from "./pages/ComingSoonPage";
+import AddGarageFormPage from "./pages/AddGarageFormPage";
+import GarageBusinessPage from "./pages/GarageBusinessPage";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +23,47 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "/business", element: <ComingSoonPage /> },
+      { path: "/garages", element: <AllGaragesPage />, loader: async () => {
+        const token = localStorage.getItem("token");
+        const res = await fetch(
+          `http://localhost:9094/api/v1/garages`,
+          {
+            cache: "no-store",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const allGarages = await res.json();
+
+        return allGarages;
+      } },
+      { path: "/business", element: <GarageBusinessPage />, loader: async ({ params }) => {
+        const token = localStorage.getItem("token");
+        const garage_id = localStorage.getItem("garage_id");
+        const res = await fetch(
+          `http://localhost:9094/api/v1/garage/${garage_id}/details`,
+          {
+            cache: "no-store",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const garageDetails = await res.json();
+
+        return garageDetails;
+      }},
       { path: "/customers", element: <ComingSoonPage /> },
       { path: "/login", element: <LoginPage /> },
       { path: "/logout", element: <LogoutPage /> },
@@ -33,6 +75,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { path: "", element: <AllGaragesPage /> },
+      { path: 'add', element: <AddGarageFormPage /> },
       { path: "check-in", element: <CheckInVehicleForm /> },
       { path: "checked-out/:checkOutId", element: <CheckedOutPage /> },
       { path: "generate-bill/:checkInId", element: <BillPage />, loader: async ({ params }) => {
@@ -51,9 +94,9 @@ const router = createBrowserRouter([
           throw new Error("Failed to fetch data");
         }
 
-        const vehicleDetails = await res.json();
+        const billDetails = await res.json();
 
-        return vehicleDetails;
+        return billDetails;
       } },
       {
         path: "check-in/:checkInId",
@@ -84,7 +127,7 @@ const router = createBrowserRouter([
         element: <GaragePage />,
         loader: async ({ params }) => {
           const token = localStorage.getItem("token");
-          const garage_id = params.garageId;
+          const garage_id = localStorage.getItem('garage_id');
 
           const res = await fetch(
             `http://localhost:9094/api/v1/incomplete_checkins/${garage_id}`,
