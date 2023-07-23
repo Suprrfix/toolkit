@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../AuthContext";
+import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
@@ -12,7 +13,10 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:9094/api/v1/signin", {
+
+      console.log("calling api");
+
+      const res = await fetch("/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,11 +27,14 @@ export default function LoginPage() {
         }),
       });
 
-      const user = await res.json();
-      if (user && user.access_token) {
-        localStorage.setItem("token", user.access_token);
+      if (res.ok) {
+        // If the response status is OK (200-299), parse the response body as JSON
+        const data = await res.json();
+        console.log("Response data:", data);
 
-        login();
+        const user = data;
+        if (user && user.access_token) {
+          localStorage.setItem("token", user.access_token);
 
         if (user.role_name === "SUPER_ADMIN") {
           localStorage.setItem("garage_id", null);
@@ -38,7 +45,9 @@ export default function LoginPage() {
           localStorage.setItem("role", 'OWNER');
           navigate(`/garage/${user.garage_details.garage_id}`);
         }
-      } else {
+
+      }
+       else {
         console.log("Login failed: Invalid credentials");
       }
     } catch (error) {
@@ -73,9 +82,9 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               />
-            
+
           </div>
-          <button 
+          <button
             className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             type="submit">Login</button>
         </form>

@@ -12,7 +12,7 @@ const token = localStorage.getItem("token");
 async function getGarageDetails() {
 
   const res = await fetch(
-    `http://localhost:9094/api/v1/garage/${currentGarage}/details`,
+    `https://optimus-internal.suprrfix.com/api/v1/garage/${currentGarage}/details`,
     {
       cache: "no-store",
       headers: {
@@ -72,7 +72,7 @@ export default function BillPage() {
 
   const handleCheckout = async () => {
     // Perform the /check-out API call here and get the response
-    const response = await fetch("http://localhost:9094/api/v1/create/check_out", {
+    const response = await fetch("https://optimus-internal.suprrfix.com/api/v1/create/check_out", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

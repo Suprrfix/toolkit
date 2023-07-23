@@ -20,7 +20,7 @@ const ServiceList = ({ bill_id, bill_items, onBillItemsUpdate }) => {
       // If the value is not a valid number, set it to 0 or any default value
       updatedServiceLines[index].price = 0;
     }
-    
+
     setServiceLines(updatedServiceLines);
     onBillItemsUpdate(updatedServiceLines);
   };

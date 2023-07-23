@@ -41,7 +41,7 @@ export default function CheckInVehicleForm() {
 
     try {
       const response1 = await fetch(
-        "http://localhost:9094/api/v1/create/customer",
+        "https://optimus-internal.suprrfix.com/api/v1/create/customer",
         {
           method: "POST",
           headers: {
@@ -53,7 +53,7 @@ export default function CheckInVehicleForm() {
       );
       const customerDataResponse = await response1.json();
       const response2 = await fetch(
-        "http://localhost:9094/api/v1/create/check_in",
+        "https://optimus-internal.suprrfix.com/api/v1/create/check_in",
         {
           method: "POST",
           headers: {
