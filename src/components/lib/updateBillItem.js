@@ -1,6 +1,6 @@
 export default async function updateBillItem(bill_id, price, serviceName) {
 
-    const res = await fetch("https://optimus-internal.suprrfix.com/api/v1/create/bill/items", {
+    const res = await fetch("/api/create/bill/items", {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({billId: bill_id, price: price, serviceName:serviceName})

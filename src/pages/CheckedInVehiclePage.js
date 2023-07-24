@@ -19,7 +19,7 @@ export default function CheckedInVehiclePage() {
 
     try {
       const res = await fetch(
-        "http://localhost:9094/api/v1/create/bill/items",
+        "/api/create/bill/items",
         {
           method: "POST",
           headers: {

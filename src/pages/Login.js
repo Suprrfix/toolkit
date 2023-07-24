@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useAuth } from "../AuthContext";
-import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
@@ -13,8 +12,6 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-
-      console.log("calling api");
 
       const res = await fetch("/api/login", {
         method: "POST",
@@ -30,8 +27,7 @@ export default function LoginPage() {
       if (res.ok) {
         // If the response status is OK (200-299), parse the response body as JSON
         const data = await res.json();
-        console.log("Response data:", data);
-
+        
         const user = data;
         if (user && user.access_token) {
           localStorage.setItem("token", user.access_token);
@@ -50,6 +46,7 @@ export default function LoginPage() {
        else {
         console.log("Login failed: Invalid credentials");
       }
+    } 
     } catch (error) {
       console.error("Login failed:", error.message);
     }

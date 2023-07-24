@@ -62,7 +62,7 @@ export default function AddGarageFormPage() {
     
         try {
           const response1 = await fetch(
-            "http://localhost:9094/api/v1/create/garage",
+            "/api/create/garage",
             {
               method: "POST",
               headers: {
@@ -74,7 +74,7 @@ export default function AddGarageFormPage() {
           );
           const garageDataResponse = await response1.json();
           const response2 = await fetch(
-            "http://localhost:9094/api/v1/create/owner",
+            "/api/create/owner",
             {
               method: "POST",
               headers: {

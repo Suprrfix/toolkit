@@ -26,7 +26,7 @@ const router = createBrowserRouter([
       { path: "/garages", element: <AllGaragesPage />, loader: async () => {
         const token = localStorage.getItem("token");
         const res = await fetch(
-          `http://localhost:9094/api/v1/garages`,
+          `/api/garages`,
           {
             cache: "no-store",
             headers: {
@@ -47,7 +47,7 @@ const router = createBrowserRouter([
         const token = localStorage.getItem("token");
         const garage_id = localStorage.getItem("garage_id");
         const res = await fetch(
-          `http://localhost:9094/api/v1/garage/${garage_id}/details`,
+          `/api/garage/${garage_id}/details`,
           {
             cache: "no-store",
             headers: {
@@ -81,7 +81,7 @@ const router = createBrowserRouter([
       { path: "generate-bill/:checkInId", element: <BillPage />, loader: async ({ params }) => {
         const token = localStorage.getItem("token");
         const res = await fetch(
-          `https://optimus-internal.suprrfix.com/api/v1/check_in/${params.checkInId}/details`,
+          `/api/check_in/${params.checkInId}/details`,
           {
             cache: "no-store",
             headers: {
@@ -104,7 +104,7 @@ const router = createBrowserRouter([
         loader: async ({ params }) => {
           const token = localStorage.getItem("token");
           const res = await fetch(
-            `https://optimus-internal.suprrfix.com/api/v1/check_in/${params.checkInId}/details`,
+            `/api/check_in/${params.checkInId}/details`,
             {
               cache: "no-store",
               headers: {
@@ -130,7 +130,7 @@ const router = createBrowserRouter([
           const garage_id = localStorage.getItem('garage_id');
 
           const res = await fetch(
-            `https://optimus-internal.suprrfix.com/api/v1/incomplete_checkins/${garage_id}`,
+            `/api/incomplete_checkins/${garage_id}`,
             {
               cache: "no-store",
               headers: {

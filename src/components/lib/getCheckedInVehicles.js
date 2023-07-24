@@ -3,7 +3,7 @@ export default async function getCheckedInVehicles() {
   const garage_id = localStorage.getItem("garage_id");
 
   const res = await fetch(
-    `https://optimus-internal.suprrfix.com/api/v1/incomplete_checkins/${garage_id}`,
+    `/api/incomplete_checkins/${garage_id}`,
     {
       cache: "no-store",
       headers: {
