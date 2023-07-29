@@ -31,7 +31,7 @@ export default function CheckedInVehiclePage() {
             billItems: finalBillItems
           }),
         }
-      );
+      );      
 
       if (!res.ok) {
         throw new Error("Failed to fetch data");

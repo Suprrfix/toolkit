@@ -108,6 +108,10 @@ exports.incompleteCheckIns = function (req, res, next) {
       request.post(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
           // If the backend microservice responds with status code 200, send the body back to the client
+
+          console.log("======create bill=====")          
+          console.log(body);
+
           res.send(body);
         } else {
           // If there's an error or the response status code is not 200, send an error response to the client

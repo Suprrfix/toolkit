@@ -9,14 +9,14 @@ const currentGarage = localStorage.getItem("garage_id");
 const token = localStorage.getItem("token");
 
 //get the garage details
-async function getGarageDetails() {
+async function getGarageDetails() {  
 
   const res = await fetch(
-    `/api/garage/${currentGarage}/details`,
+    `/api/garage/${localStorage.getItem("garage_id")}/details`,
     {
       cache: "no-store",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     }
   );
