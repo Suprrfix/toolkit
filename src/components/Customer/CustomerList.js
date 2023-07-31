@@ -19,13 +19,13 @@ export default function CustomerList( {customers = [] }) {
           <CustomerCard
           key={index}
             vehicle_model={''}
-            vehicle_number={'KA24HR0010'}
+            vehicle_number={customer.customer_vehicle_number}
             customer_first_name={customer.customer_name}
             customer_last_name={''}
             customer_phone_number={customer.customer_mobile_number}
             vehicle_brand={''}
-            vehicle_variant={customer.Car}
-            vehicle_type={'CAR'}
+            vehicle_type={customer.customer_vehicle_type}
+            vehicle_variant={customer.customer_vehicle}
           ></CustomerCard>
         );
       })}

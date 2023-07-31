@@ -66,29 +66,27 @@ const router = createBrowserRouter([
         return garageDetails;
       }},
       { path: "/customers", element: <CustomerListPage />, 
-      //loader: async ({ params }) => {
-        // const res = await ('https://64a2ee97b45881cc0ae5e5dd.mockapi.io/api/test/customers');
+      loader: async ({ params }) => {
+        const token = localStorage.getItem("token");
+        const garage_id = localStorage.getItem("garage_id");
+        const res = await fetch(
+          `/api/garage/${garage_id}/customers`,
+          {
+            cache: "no-store",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-        // const token = localStorage.getItem("token");
-        // const garage_id = localStorage.getItem("garage_id");
-        // const res = await fetch(
-        //   `/api/garage/${garage_id}/details`,
-        //   {
-        //     cache: "no-store",
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   }
-        // );
+        if (!res.ok) {
+          throw new Error("Failed to fetch data");
+        }
 
-        // if (!res.ok) {
-        //   throw new Error("Failed to fetch data");
-        // }
+        const customerList = await res.json();
 
-        // const customerList = await res.json();
-
-        // return customerList;
-      // }
+        return customerList;
+      }
     },
       { path: "/login", element: <LoginPage /> },
       { path: "/logout", element: <LogoutPage /> },

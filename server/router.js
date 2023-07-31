@@ -26,6 +26,7 @@ module.exports =function(app)
 
 	apiRoutes.post('/create/owner',userController.createOwnerApi);
 	apiRoutes.post('/create/customer',customerController.createCustomerApi);
+	apiRoutes.get('/garage/:id/customers',customerController.customersApi);
 
 	apiRoutes.post('/create/check_out',checkOutController.createCheckOutApi);
 

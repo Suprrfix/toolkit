@@ -113,7 +113,7 @@ export default function BillPage() {
         </header>
 
         <hr className="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700"></hr>
-        <DetailField label="Customer name" value={`${checkIn.customer_first_name} ${checkIn.customer_last_name}`} />
+        <DetailField label="Customer name" value={`${checkIn.customer_first_name}`} />
         <DetailField label="Mobile" value={`+91 ${checkIn.customer_phone_number}`} />
         <DetailField label="Vehicle number" value={checkIn.vehicle_number} />
         <hr className="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700"></hr>
