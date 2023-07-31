@@ -24,7 +24,7 @@ export default function CheckedInVehiclePage() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify({
             billId: checkIn.bill_id,
