@@ -21,9 +21,9 @@ export default function CheckInVehicleForm() {
 
     let garage_id = localStorage.getItem("garage_id");
 
-    if(garage_id === 'null') {
-      garage_id = 1;
-    }
+    // if(garage_id === 'null') {
+    //   garage_id = 1;
+    // }
 
     const customerData = {
       brand: formData.brand,
@@ -40,18 +40,18 @@ export default function CheckInVehicleForm() {
     const token = localStorage.getItem("token");
 
     try {
-      const response1 = await fetch(
-        "/api/create/customer",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(customerData),
-        }
-      );
-      const customerDataResponse = await response1.json();
+      // const response1 = await fetch(
+      //   "/api/create/customer",
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //     body: JSON.stringify(customerData),
+      //   }
+      // );
+      // const customerDataResponse = await response1.json();
       const response2 = await fetch(
         "/api/create/check_in",
         {
@@ -61,9 +61,9 @@ export default function CheckInVehicleForm() {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            customerId: customerDataResponse.customer_id,
-            customerVehicleId: customerDataResponse.customer_vehicle_id,
-            garageId: customerDataResponse.garage_id,
+            vehicleRegistration: formData.customer_vehicle_number,
+            phoneNumber: formData.phone_number,
+            garageId: garage_id,
             userId: 1,
           }),
         }
@@ -110,43 +110,7 @@ export default function CheckInVehicleForm() {
             onChange={handleChange}
             required
           />
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="customer_first_name"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            First name
-          </label>
-          <input
-            type="text"
-            name="customer_first_name"
-            id="customer_first_name"
-            placeholder="Rajesh"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            value={formData.customer_first_name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="customer_last_name"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            Last name
-          </label>
-          <input
-            type="text"
-            name="customer_last_name"
-            id="customer_last_name"
-            placeholder="Gowda"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            value={formData.customer_last_name}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        </div>        
         <div className="mb-6">
           <label
             htmlFor="phone_number"
@@ -164,79 +128,7 @@ export default function CheckInVehicleForm() {
             onChange={handleChange}
             required
           />
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="vehicle_type"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            Vehicle type:
-          </label>
-          <select
-            name="vehicle_type"
-            id="vehicle_type"
-            value={formData.vehicle_type}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            onChange={handleChange}
-          >
-            <option value="CAR">Car</option>
-            <option value="BIKE">Bike</option>
-          </select>
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="brand"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            Brand
-          </label>
-          <input
-            type="text"
-            id="brand"
-            name="brand"
-            placeholder="Honda"
-            value={formData.brand}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="vehicle_model"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            Model
-          </label>
-          <input
-            type="text"
-            name="vehicle_model"
-            id="vehicle_model"
-            placeholder="City"
-            value={formData.vehicle_model}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="vehicle_variant"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            Variant
-          </label>
-          <input
-            type="text"
-            name="vehicle_variant"
-            id="vehicle_variant"
-            placeholder="VX"
-            value={formData.vehicle_variant}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            onChange={handleChange}
-            required
-          />
-        </div>
+        </div>        
         <button className="btn btn-blue w-full" type="submit">
           Check-in
         </button>

@@ -70,7 +70,7 @@ export default function CheckedInVehiclePage() {
 
       <DetailField
         label="Vehicle details"
-        value={`${checkIn.vehicle_brand} ${checkIn.vehicle_model} ${checkIn.vehicle_variant} (${checkIn.vehicle_type})`}
+        value={`${checkIn.vehicle_brand} ${checkIn.vehicle_model} (${checkIn.vehicle_type})`}
       />
       <DetailField
         label="Mobile"
